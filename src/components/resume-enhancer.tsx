@@ -2,11 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import { Upload, FileText, Check, User } from 'lucide-react'
+import { enhanceResume,savePDF } from '@/lib/agent'
 
 export function ResumeEnhancerComponent() {
   const [file, setFile] = useState<File | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
   const [progress, setProgress] = useState(0)
+  const [enhancedResume, setEnhancedResume] = useState<Uint8Array | null>(null)
+  const [explanation, setExplanation] = useState<string>('')
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0]
@@ -17,15 +20,26 @@ export function ResumeEnhancerComponent() {
     }
   }
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
     if (file) {
       setIsProcessing(true)
-      // Simulating the processing time
-      setTimeout(() => {
+      try {
+        const result = await enhanceResume(file)
+        setEnhancedResume(result.enhancedResume)
+        setExplanation(result.explanation)
+      } catch (error) {
+        console.error('Error enhancing resume:', error)
+        alert('An error occurred while enhancing the resume')
+      } finally {
         setIsProcessing(false)
-        setFile(null)
-      }, 15000)
+      }
+    }
+  }
+
+  const handleDownload = () => {
+    if (enhancedResume) {
+      savePDF(enhancedResume, 'enhanced_resume.pdf')
     }
   }
 
@@ -48,7 +62,7 @@ export function ResumeEnhancerComponent() {
     <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4">
       <h1 className="text-4xl font-bold mb-8">AI Resume Enhancer</h1>
       
-      {!isProcessing ? (
+      {!isProcessing && !enhancedResume ? (
         <form onSubmit={handleSubmit} className="w-full max-w-md">
           <div className="border-2 border-dashed border-blue-500 rounded-lg p-8 text-center hover:border-blue-300 transition-colors duration-300">
             <input
@@ -74,7 +88,7 @@ export function ResumeEnhancerComponent() {
             Enhance Resume
           </button>
         </form>
-      ) : (
+      ) : isProcessing ? (
         <div className="w-full max-w-3xl">
           <div className="mb-8 text-center">
             <p className="text-2xl font-semibold mb-2">Enhancing your resume...</p>
@@ -93,22 +107,22 @@ export function ResumeEnhancerComponent() {
               
               {/* Animated green lines */}
               <path d="M108,150 L350,50" className="stroke-green-500 stroke-[6]" strokeDasharray="280" strokeDashoffset="280" filter="url(#glow)">
-                <animate attributeName="stroke-dashoffset" from="280" to="0" dur="5s" begin="0s" fill="freeze" />
+                <animate attributeName="stroke-dashoffset" from="280" to="0" dur="2s" begin="0s" fill="freeze" />
               </path>
               <path d="M108,150 L350,150" className="stroke-green-500 stroke-[6]" strokeDasharray="242" strokeDashoffset="242" filter="url(#glow)">
-                <animate attributeName="stroke-dashoffset" from="242" to="0" dur="5s" begin="0s" fill="freeze" />
+                <animate attributeName="stroke-dashoffset" from="242" to="0" dur="2s" begin="0s" fill="freeze" />
               </path>
               <path d="M108,150 L350,250" className="stroke-green-500 stroke-[6]" strokeDasharray="280" strokeDashoffset="280" filter="url(#glow)">
-                <animate attributeName="stroke-dashoffset" from="280" to="0" dur="5s" begin="0s" fill="freeze" />
+                <animate attributeName="stroke-dashoffset" from="280" to="0" dur="2s" begin="0s" fill="freeze" />
               </path>
               <path d="M450,50 L692,150" className="stroke-green-500 stroke-[6]" strokeDasharray="280" strokeDashoffset="280" filter="url(#glow)">
-                <animate attributeName="stroke-dashoffset" from="280" to="0" dur="5s" begin="5s" fill="freeze" />
+                <animate attributeName="stroke-dashoffset" from="280" to="0" dur="2s" begin="2s" fill="freeze" />
               </path>
               <path d="M450,150 L692,150" className="stroke-green-500 stroke-[6]" strokeDasharray="242" strokeDashoffset="242" filter="url(#glow)">
-                <animate attributeName="stroke-dashoffset" from="242" to="0" dur="5s" begin="5s" fill="freeze" />
+                <animate attributeName="stroke-dashoffset" from="242" to="0" dur="2s" begin="2s" fill="freeze" />
               </path>
               <path d="M450,250 L692,150" className="stroke-green-500 stroke-[6]" strokeDasharray="280" strokeDashoffset="280" filter="url(#glow)">
-                <animate attributeName="stroke-dashoffset" from="280" to="0" dur="5s" begin="5s" fill="freeze" />
+                <animate attributeName="stroke-dashoffset" from="280" to="0" dur="2s" begin="2s" fill="freeze" />
               </path>
             </svg>
             
@@ -140,6 +154,17 @@ export function ResumeEnhancerComponent() {
               <p className="text-sm">Grader</p>
             </div>
           </div>
+        </div>
+      ) : (
+        <div className="w-full max-w-md">
+          <h2 className="text-2xl font-semibold mb-4">Enhancement Complete!</h2>
+          <p className="mb-4">{explanation}</p>
+          <button
+            onClick={handleDownload}
+            className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-300"
+          >
+            Download Enhanced Resume
+          </button>
         </div>
       )}
     </div>
