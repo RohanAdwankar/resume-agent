@@ -84,31 +84,31 @@ export function ResumeEnhancerComponent() {
             {/* Flow diagram */}
             <svg className="w-full" viewBox="0 0 800 300">
               {/* Static blue lines */}
-              <path d="M100,150 L350,50" className="stroke-blue-500 stroke-[6]" />
-              <path d="M100,150 L350,150" className="stroke-blue-500 stroke-[6]" />
-              <path d="M100,150 L350,250" className="stroke-blue-500 stroke-[6]" />
-              <path d="M450,50 L700,150" className="stroke-blue-500 stroke-[6]" />
-              <path d="M450,150 L700,150" className="stroke-blue-500 stroke-[6]" />
-              <path d="M450,250 L700,150" className="stroke-blue-500 stroke-[6]" />
+              <path d="M108,150 L350,50" className="stroke-blue-500 stroke-[6]" />
+              <path d="M108,150 L350,150" className="stroke-blue-500 stroke-[6]" />
+              <path d="M108,150 L350,250" className="stroke-blue-500 stroke-[6]" />
+              <path d="M450,50 L692,150" className="stroke-blue-500 stroke-[6]" />
+              <path d="M450,150 L692,150" className="stroke-blue-500 stroke-[6]" />
+              <path d="M450,250 L692,150" className="stroke-blue-500 stroke-[6]" />
               
               {/* Animated green lines */}
-              <path d="M100,150 L350,50" className="stroke-green-500 stroke-[6]" strokeDasharray="280" strokeDashoffset="280">
-                <animate attributeName="stroke-dashoffset" from="280" to="0" dur="7.5s" begin="0s" fill="freeze" />
+              <path d="M108,150 L350,50" className="stroke-green-500 stroke-[6]" strokeDasharray="280" strokeDashoffset="280" filter="url(#glow)">
+                <animate attributeName="stroke-dashoffset" from="280" to="0" dur="5s" begin="0s" fill="freeze" />
               </path>
-              <path d="M100,150 L350,150" className="stroke-green-500 stroke-[6]" strokeDasharray="250" strokeDashoffset="250">
-                <animate attributeName="stroke-dashoffset" from="250" to="0" dur="7.5s" begin="0s" fill="freeze" />
+              <path d="M108,150 L350,150" className="stroke-green-500 stroke-[6]" strokeDasharray="242" strokeDashoffset="242" filter="url(#glow)">
+                <animate attributeName="stroke-dashoffset" from="242" to="0" dur="5s" begin="0s" fill="freeze" />
               </path>
-              <path d="M100,150 L350,250" className="stroke-green-500 stroke-[6]" strokeDasharray="280" strokeDashoffset="280">
-                <animate attributeName="stroke-dashoffset" from="280" to="0" dur="7.5s" begin="0s" fill="freeze" />
+              <path d="M108,150 L350,250" className="stroke-green-500 stroke-[6]" strokeDasharray="280" strokeDashoffset="280" filter="url(#glow)">
+                <animate attributeName="stroke-dashoffset" from="280" to="0" dur="5s" begin="0s" fill="freeze" />
               </path>
-              <path d="M450,50 L700,150" className="stroke-green-500 stroke-[6]" strokeDasharray="280" strokeDashoffset="280">
-                <animate attributeName="stroke-dashoffset" from="280" to="0" dur="7.5s" begin="7.5s" fill="freeze" />
+              <path d="M450,50 L692,150" className="stroke-green-500 stroke-[6]" strokeDasharray="280" strokeDashoffset="280" filter="url(#glow)">
+                <animate attributeName="stroke-dashoffset" from="280" to="0" dur="5s" begin="5s" fill="freeze" />
               </path>
-              <path d="M450,150 L700,150" className="stroke-green-500 stroke-[6]" strokeDasharray="250" strokeDashoffset="250">
-                <animate attributeName="stroke-dashoffset" from="250" to="0" dur="7.5s" begin="7.5s" fill="freeze" />
+              <path d="M450,150 L692,150" className="stroke-green-500 stroke-[6]" strokeDasharray="242" strokeDashoffset="242" filter="url(#glow)">
+                <animate attributeName="stroke-dashoffset" from="242" to="0" dur="5s" begin="5s" fill="freeze" />
               </path>
-              <path d="M450,250 L700,150" className="stroke-green-500 stroke-[6]" strokeDasharray="280" strokeDashoffset="280">
-                <animate attributeName="stroke-dashoffset" from="280" to="0" dur="7.5s" begin="7.5s" fill="freeze" />
+              <path d="M450,250 L692,150" className="stroke-green-500 stroke-[6]" strokeDasharray="280" strokeDashoffset="280" filter="url(#glow)">
+                <animate attributeName="stroke-dashoffset" from="280" to="0" dur="5s" begin="5s" fill="freeze" />
               </path>
             </svg>
             
