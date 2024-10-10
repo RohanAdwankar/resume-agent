@@ -1,8 +1,8 @@
-"use client"
+'use client'
 
 import { useState, useEffect } from 'react'
 import { Upload, FileText, Check, User } from 'lucide-react'
-import { enhanceResume,savePDF } from '@/lib/agent'
+import { savePDF } from '@/lib/agent'
 
 export function ResumeEnhancerComponent() {
   const [file, setFile] = useState<File | null>(null)
@@ -25,9 +25,27 @@ export function ResumeEnhancerComponent() {
     if (file) {
       setIsProcessing(true)
       try {
-        const result = await enhanceResume(file)
-        setEnhancedResume(result.enhancedResume)
-        setExplanation(result.explanation)
+        const reader = new FileReader()
+        reader.onload = async (e) => {
+          const base64 = e.target?.result?.toString().split(',')[1]
+          
+          const response = await fetch('/api/enhance-resume', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ file: base64 }),
+          })
+
+          if (!response.ok) {
+            throw new Error('Failed to enhance resume')
+          }
+
+          const result = await response.json()
+          setEnhancedResume(new Uint8Array(Buffer.from(result.enhancedResume, 'base64')))
+          setExplanation(result.explanation)
+        }
+        reader.readAsDataURL(file)
       } catch (error) {
         console.error('Error enhancing resume:', error)
         alert('An error occurred while enhancing the resume')
