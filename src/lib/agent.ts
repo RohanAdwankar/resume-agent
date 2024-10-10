@@ -47,28 +47,25 @@ async function gradingAgent(results: { content: Uint8Array; explanation: string 
   };
 }
 
-export async function enhanceResume(file: File): Promise<{ enhancedResume: Uint8Array; explanation: string }> {
-  // Step 1: Read the PDF file
-  const arrayBuffer = await file.arrayBuffer();
-  const pdfContent = new Uint8Array(arrayBuffer);
-
-  // Step 2: Process with three AI agents
-  const agentPromises = [
-    aiAgentProcess(pdfContent, "Agent 1"),
-    aiAgentProcess(pdfContent, "Agent 2"),
-    aiAgentProcess(pdfContent, "Agent 3")
-  ];
-
-  const agentResults = await Promise.all(agentPromises);
-
-  // Step 3: Grade the results
-  const { bestVersion, reasoning } = await gradingAgent(agentResults);
-
-  return {
-    enhancedResume: bestVersion,
-    explanation: reasoning
-  };
-}
+export async function enhanceResume(pdfContent: Uint8Array): Promise<{ enhancedResume: Uint8Array; explanation: string }> {
+    // Step 1: Process with three AI agents
+    const agentPromises = [
+      aiAgentProcess(pdfContent, "Agent 1"),
+      aiAgentProcess(pdfContent, "Agent 2"),
+      aiAgentProcess(pdfContent, "Agent 3")
+    ];
+  
+    const agentResults = await Promise.all(agentPromises);
+  
+    // Step 2: Grade the results
+    const { bestVersion, reasoning } = await gradingAgent(agentResults);
+  
+    return {
+      enhancedResume: bestVersion,
+      explanation: reasoning
+    };
+  }
+  
 
 export async function savePDF(pdfContent: Uint8Array, fileName: string): Promise<void> {
   const pdfDoc = await PDFDocument.load(pdfContent);

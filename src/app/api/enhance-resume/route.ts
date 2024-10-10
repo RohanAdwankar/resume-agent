@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   try {
     const { file } = await request.json();
     const fileBuffer = Buffer.from(file, 'base64');
-    const result = await enhanceResume(new Blob([fileBuffer]));
+    const result = await enhanceResume(fileBuffer);
     
     return NextResponse.json({
       enhancedResume: Buffer.from(result.enhancedResume).toString('base64'),
