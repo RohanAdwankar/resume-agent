@@ -1,5 +1,3 @@
-Building in public
-
 Not complete
 
 Meant to be an example repo for generalized frontend of agent workflow project
